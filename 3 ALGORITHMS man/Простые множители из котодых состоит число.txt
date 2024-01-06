@@ -1,0 +1,17 @@
+// все простые множители числа  12 = 2 * 2 * 3;
+std::vector<int> all_mult(int n){
+	std::vector<int> ans;
+	int del = 2;
+	while(del * del <= n){
+		while(n % del == 0){
+			n /= del;
+			ans.push_back(del);
+		}
+		++del;
+	}
+	if(n != 1){
+		ans.push_back(del);
+	}
+	//std::sort(ans.begin(), ans.end());
+	return ans;
+}

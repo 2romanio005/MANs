@@ -1,0 +1,5 @@
+запуск доктестов
+	python -m doctest -v src/lab3/sudoku.py
+запуск unit теста (только одного с помощью '.')
+	python -m unittest tests.lab3.test_sudoku.SudokuTestCase.test_get_block
+

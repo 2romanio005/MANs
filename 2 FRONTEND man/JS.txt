@@ -1,0 +1,107 @@
+<script src="./script.js"></acript>
+
+alert(str) -  окно с сообщением
+prompt("текст рядом с полем ввода", "изначальный текст в поле ввода") -  окно с полем ввода
+
+BigInt - больше 64 бит
+Simbol
+Number
+Object
+
+Number(str) - преобрзовать в число undefined(вроде) когда не получаектся преобразовать	текст после числа отбрасывается
+parseInt(str, int) - преобрзовать в число по основанию                                    текст после числа отбрасывается
+parseFloat(str) - преобразовать в Float                                                   текст после числа отбрасывается
+.toString(int)
+
+typeof(x)
+
+charCodeAt('a')		- получить код символа по символу
+fromCharCode(97)	- получить символ по коду
+
+
+`` - обратные кавычки на ё
+`имя пользователя ${name}` - шаблонные строки (name - какя-то переменная)   переносы строк остаются в шаблонных строках (\n)
+
+, - Оператор запятая выполняет каждый из его операндов (слева направо) и возвращает значение последнего операнда
+
+
+function getRandomNumber(min, mix){
+	return Math.floor(Math.random() * (max - min + 1)) + min;  // floor - отбрасывает знаки после запятой, random() - случайное чило [0, 1)
+}
+
+
+
+const AAA = {литерал объекта};
+
+const AAA = new Object({литерал объекта});
+
+class className{
+	constructor(name){this.name = name;} - конструктор
+	#name; - приватное поле класса
+}
+let AAA = new classNmae("abc");
+
+let newObj = Obbject.create(Obj)   - копирование обекта
+
+const pref = "lol_";
+const pers{
+	"full name": "jon cevin";
+	[pref + "kek"]: 123;
+}
+console.log(pers["full name"]); // jon cevin
+console.log(pers.lol_kek);		// 123
+delete pers.lol_kek; 			// поле полнстью удално
+"full name: in pres; 			// true
+"abc: in pres; 					// false
+pres.hasOwnProperty("abc");		// false
+
+console.log(pers.abc || "Moscov") // Moscov
+
+for (let key in obj){
+	// перебирает в key имена всех полей obj
+	consle.log(key + ': ' + obj[key]);
+}
+for (let el of obj){
+	// перебирает в el значения всех полей obj
+}
+Object.keys(obj); 	- возвращает массив имён всех полей
+Object.values(obj);	- возвращает массив значений всех полей
+Object.entries(obj);- возвращает массив пары имя-значение всех полей
+
+https://learn.javascript.ru/object
+https://developer.mozilla.org/ru/docs/Learn/JavaScript/Objects
+https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Working_with_Objects
+
+
+[] или new Array(len); 	
+
+.length;		- длинна size
+
+.push(); 		- в конец
+.pop();			- удаляет и возвразает последний элемент
+
+.unshift(); 	- в начало
+.shift();		- удаляет и возвразает первый элемент
+
+.fill(val, start, fin);	- заполнят диапазон массива значениями (если val это объект, то все элементы будут ссылками на него)
+
+.concat(secArr);	- вернёт обединение двух массивов		или так		 [...firstArr, ...secArr];
+
+.indexOf(val, srart);		- получить индекс элемента, поиск начинает с start, -1 если его нет
+.lastIndexOf(val, srart);
+.includes(val, start);		- true/false 
+
+.sort(comp);
+функции сравнения при сортировки:
+если возвращает отрицательное: перый элемент должен быть перед вторым
+если возвращает 0: без разницы
+если возвращает положительное: перый элемент должен быть после второго
+
+.join();
+.split();
+.forEach(...);	// работатет с основным массиврм
+.map();			// создаёт массив с результатом
+.filter();		// озвращает новый массив с отфильтроваными значениями
+.find() и .findIndex()
+.every() и .some()
+.reduce()       // схлопнуть массив до до одного значения (например сложить все элементы)

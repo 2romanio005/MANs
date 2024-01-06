@@ -1,0 +1,15 @@
+git flow init					инициализация  git flow в корне репозитория
+
+git flow feature start name			создание новой ветки разработки name
+git flow feature finish name			завершение разработки name и мержд её в dev
+
+git checkout develop
+git flow release start v1.0.0			создание релиза v1.0.0
+git flow release finish v1.0.0			завершение релиза v1.0.0 и мердж в main и dev
+
+git checkout main
+git flow hotfix start hotfix-1.0.1		создание hotfix 
+git flow hotfix finish hotfix-1.0.1		завершение hotfix и мердж в main и dev
+
+
+

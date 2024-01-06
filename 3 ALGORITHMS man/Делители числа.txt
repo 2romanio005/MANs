@@ -1,0 +1,17 @@
+// все делители числа
+std::vector<int> all_del(int n){
+	std::vector<int> ans;
+	int del = 2;
+	while(del * del < n){
+		if(n % del == 0){
+			ans.push_back(del);
+			ans.push_back(n / del);
+		}
+		++del;
+	}
+	if(del * del == n){
+		ans.push_back(del);
+	}
+	//std::sort(ans.begin(), ans.end());
+	return ans;
+}

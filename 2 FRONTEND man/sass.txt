@@ -1,0 +1,40 @@
+$имя_переменной: значение;
+
+
+@mixin name{					- миксин без параметров
+}
+@include name;					- использовать миксин
+@mixin left($param: 2px){		- миксин с параметрами
+	margin-left: $param;
+}
+@include left(5px);				- использовать миксин
+@include left();				- использовать миксин
+
+
+@extend .block; /* Наследовать стили от '.block' */
+
+ 
+h1 {
+	font-size: 2em;
+	@media (min-width: 1200px) {	// изменит стиль h1 при выполнениии условия
+		font-size: 3em;
+	}
+}
+
+@mixin small {				// при вызове mixin всё что будет написанно в {} подставится вместо @content
+ @content;
+}
+small{
+	то что подставится в @content;
+}
+
+
+nth(массив, индекс начина с 1)
+@for $i from 1 through length($icons) {
+	nth($icons, $i);
+}
+@each $icon in $icons{
+}
+
+
+

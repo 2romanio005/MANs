@@ -1,0 +1,21 @@
+declare
+
+-f	All names are treated as the names of functions, not variables.
+-F	When displaying information about a function, display only the function's name and attributes. Do not display the contents of the function.
+-g	When declare is used within a shell function, the -g option causes all operations on variables to take effect in global scope. If not used in a shell function, -g has no effect.
+-p	When used with name arguments, -p displays the options and attributes of each variable name, and -f or -F are ignored (functions are not described).
+	When used with options, but no names, -p displays the attributes and values, which match the other specified options, of all variables and functions.
+	When used with no options or names, -p displays the attributes and values of all variables and functions, or only functions if -f is specified.
+
+-a		Declare the named items to be indexed arrays. This attribute cannot be unset.
+-A		Declare the named items to be associative arrays. This attribute cannot be unset.
+-i	+i	Give the named items the integer attribute. Values assigned to the variable will be restricted to integer values. If a non-integer value is assigned, either an error is reported, or the value 0 (zero) is assigned instead.
+		If the assigned value is a string representing an arithmetic operation on integers (such as "5+5"), the result of the operation is assigned. If the result of the operation is not an integer, the integer floor is assigned (e.g., "22/7" assigns 3). Floating point values may not be used, and if so an error will be reported. Bash does not support floating point math operations.
+-l	+l	When a value is assigned to the named variable, convert all uppercase letters to lowercase. If the uppercase (-u) attribute was previously set for the variable, the attribute is unset.
+-n	+n	Give each name the nameref attribute, making it a "name reference" to another variable. The referenced variable is defined by the value of name. All references, assignments, and attribute modifications to name, except those using or changing the nameref attribute, are performed on the variable referenced by the value of name. In other words, it makes the variable a pointer to another variable.
+		The nameref attribute cannot be applied to arrays.
+
+-r	+r	Make the named items read-only. They cannot subsequently be assigned values or unset.
+-t	+t	Give each named item the trace attribute. If the item is a function, it will inherit the DEBUG and RETURN traps from the parent shell. If the item is a variable, the trace attribute has no effect.
+-u	+u	When the named variable is assigned a value, any lowercase letters are converted to uppercase. If the lowercase (-l) attribute was previously set for the variable, the attribute is unset.
+-x	+x	Mark named items for export to child processes, as if the export builtin command had been used.

@@ -1,0 +1,12 @@
+bool (*cmp)(const int& a, const int& b) = [](const int& a, const int& b) {
+	return a > b;
+};
+std::set<int, decltype(cmp)> s(cmp);
+
+s.insert(2);
+s.insert(1);
+s.insert(3);
+for (auto el : s) {
+	std::cout << el << ' ';
+}
+std::cout << std::endl;
