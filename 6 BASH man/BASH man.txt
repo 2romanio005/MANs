@@ -7,57 +7,68 @@ $1 - первый ключ
 https://translated.turbopages.org/proxy_u/en-ru.ru.3a989c15-657793de-5916fb1b-74722d776562/https/stackoverflow.com/questions/22648751/how-to-read-while-reading-from-a-file-in-bash
 
 
-declare -i A=123				создание и инициализация целочисленной переменной (следи за '=' оно должно быть без пробелов)
-unset A						уделение переменной A
+declare -i A=123								создание и инициализация целочисленной переменной (следи за '=' оно должно быть без пробелов)
+unset A											уделение переменной A
 
-IFS=$'\n'					переменная которая используется как разделитель
+IFS=$'\n'										переменная которая используется как разделитель
 
 https://habr.com/ru/companies/ruvds/articles/327896/	регулярные выраженя
 
-/dev/null					пустота
-exec < /dev/tty					переключиться на стандартный поток ввода
-exec > /dev/tty					переключиться на стандартный поток вывода
+/dev/null										пустота
+exec < /dev/tty											переключиться на стандартный поток ввода
+exec > /dev/tty											переключиться на стандартный поток вывода
 https://tokmakov.msk.ru/blog/item/76
 
-echo 						вывод текса
-	-e							учитывать \-переменные
-	-e \e[x;y text \e[m					раскрасить test в цвет x;y  
-	https://www.cyberciti.biz/faq/bash-shell-change-the-color-of-my-shell-prompt-under-linux-or-unix/
-	-n							не выводить \n в конце
+echo 											вывод текса
+	-e													учитывать \-переменные
+	-e \e[x;y text \e[m									раскрасить test в цвет x;y  
+	https://www.cyberciti.biz/faq/bash-shell-change-the-color-of-my-shell-prompt-under-linux-or-unix/		цвета
+	-n													не выводить \n в конце
 
-read <[откуда читать] [куда читать]		ввод текста
+read <[откуда читать] [куда читать]				ввод текста
 
 read -e -p "Вы уверенны что хотите продолжить? [y/N] " </dev/tty response
-while IFS="" read -r line || [ -n "$line" ]	чтение из файла $file построчко от начала и до конца в переменную $line
+
+while IFS="" read -r line || [ -n "$line" ]		чтение из файла $file построчко от начала и до конца в переменную $line
 do
 	echo "$line"
 done <"$file"
 
 
 
-for (( i=0; i<${#str}; i++ ))			цикл for
+for (( i=0; i<${#str}; i++ ))					цикл for
 do
-	echo "${str:i:1}"			обращение к подстроке [i, i+1)
+	echo "${str:i:1}"									обращение к подстроке [i, i+1)
 	sleep 0.1
 done
 
-arr=( 1 4 5 )					создание массива
-	arr+= ( 10 )						добавление элемента в массив
-	${arr[1]}						2 элемент массива
-	${#arr[@]}						размер массива
-for el in $arr					цикл for in
+arr=( 1 4 5 )									создание массива
+	arr+= ( 10 )										добавление элемента в массив
+	${arr[1]}											второй элемент массива
+	${#arr[@]}											размер массива
+
+for el in $arr									цикл for in
 do
 	echo el
 done
 
+case EXPRESSION in								switch-case
+  PATTERN_1 | PATTERN_2)
+    STATEMENTS
+    ;;
+	
+  *)
+    STATEMENTS
+    ;;
+esac
 
 
-function func_name {				создание функции
+function func_name {							создание функции
 массивы нельзя просто принять или вернуть там надо по указателям 
 	https://stackoverflow.com/questions/10582763/how-to-return-an-array-in-bash-without-using-globals 	получение массива
 	https://stackoverflow.com/questions/16461656/how-to-pass-array-as-an-argument-to-a-function-in-bash	передача массива
-	return 							# возращает чило 0-255 в переменную $? которую можно чатать всего один раз
-	echo							так можно вернуть любое значение представимое в виде текста
+	return 												# возращает чило 0-255 в переменную $? которую можно чатать всего один раз
+	echo												так можно вернуть любое значение представимое в виде текста
 }
 
 

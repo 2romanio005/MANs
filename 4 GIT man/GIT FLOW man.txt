@@ -1,6 +1,6 @@
-git flow init					инициализация  git flow в корне репозитория
+git flow init							инициализация  git flow в корне репозитория
 
-git flow feature start name			создание новой ветки разработки name
+git flow feature start name				создание новой ветки разработки name
 git flow feature finish name			завершение разработки name и мержд её в dev
 
 git checkout develop

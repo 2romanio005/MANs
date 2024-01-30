@@ -1,0 +1,13 @@
+https://github.com/cs-itmo-2023/lab-4-MyEducation11235/blob/main/main/Report/report.md
+
+менеджер контейноров ?
+
+Dockerfile										 файл по которому будет собиратьс€ и работать образ
+	FROM ubuntu:latest									операционка
+	RUN 												только один раз при сборке
+	CMD  												каждый раз при запуске
+
+docker build -t my_dockerfile					создаЄм образ c именем my_dockerfile
+docker run -itd --name name my_dockrfie			запускаем контейнер
+docker network create net						создаЄм сеть дл€ контейнеров по имени net
+docker network conect net name					добавл€ем в сеть net контейнер name
