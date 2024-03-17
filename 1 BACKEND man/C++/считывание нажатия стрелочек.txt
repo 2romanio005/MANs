@@ -1,0 +1,20 @@
+int k1, k2;
+for (;;)
+{
+	k1 = _getch();
+	cout << "k1\t" << k1 << endl;
+	if (k1 == 0xE0 || k1 == 0x00)
+	{
+		k2 = _getch();
+		cout << "k2 " << k2 << endl;
+		switch (k2)
+		{
+		case 0x4B: printf("Left  on %s kbd\n", k1 ? "main" : "extended"); break;
+		case 0x48: printf("Up    on %s kbd\n", k1 ? "main" : "extended"); break;
+		case 0x4D: printf("Right on %s kbd\n", k1 ? "main" : "extended"); break;
+		case 0x50: printf("Down  on %s kbd\n", k1 ? "main" : "extended"); break;
+		//case 107: return 0;
+		}
+	}
+	cout << endl;
+}
