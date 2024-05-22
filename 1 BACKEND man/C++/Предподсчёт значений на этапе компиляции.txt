@@ -1,0 +1,50 @@
+// Предподсчёт на этапе компиляции числа, соответствующего хешу строки из N символов C подрят ('C' * N)
+template<char C, int N>
+struct HASH_OF_IDENTICAL_CHARACTERS_IN_A_ROW {
+	static const uint64_t RESULT = (HASH_OF_IDENTICAL_CHARACTERS_IN_A_ROW<C, N - 1>::RESULT << 8) + C;
+};
+template<char C>
+struct HASH_OF_IDENTICAL_CHARACTERS_IN_A_ROW<C, 1> {
+	static const uint64_t RESULT = C;
+};
+
+// функция замены завершающих пробелов на '\0'
+// на вход податся строка вида: "полезный текст" + ' ' * m + '\0' * d, где m, d >= 0
+// Исходная строка приводится к виду: "полезный текст" + '\0' * (m + d)
+void TrimRight(char *s) {
+// по сколько символов будем читать за раз
+#define NUMBER_OF_CHARACTERS_IN_A_ROW 8
+// посчитать хеш строки, состоящей только из символов С 
+#define GET_HASH(C) HASH_OF_IDENTICAL_CHARACTERS_IN_A_ROW<C, NUMBER_OF_CHARACTERS_IN_A_ROW>::RESULT	
+// Если хеш не совпал, то переходим к посимвольному сканированию
+#define CHECK_CHARACTERS_IN_HASH(END) char *one_char = reinterpret_cast<char *>(block + 1); \
+do {\
+	--one_char;\
+	switch (*one_char)\
+	{\
+		case '\0': break;\
+		case ' ': *one_char = '\0'; break;\
+		default: return;\
+	}\
+} while (one_char != reinterpret_cast<char *>(END));
+
+	 // получение конца выделенной памяти под строку за O(1)	
+	uint64_t *block = reinterpret_cast<uint64_t *>(s + _msize(s) - NUMBER_OF_CHARACTERS_IN_A_ROW);
+	while (block >= reinterpret_cast<uint64_t *>(s))
+	{
+		// чтобы читать сразу по 8 символов
+		if (*block != GET_HASH('\0')) {
+			if (*block != GET_HASH(' ')) {
+				CHECK_CHARACTERS_IN_HASH(block)
+			}
+			else {
+				*block = GET_HASH('\0');
+			}
+		}
+		--block;
+	}
+	CHECK_CHARACTERS_IN_HASH(s)
+#undef NUMBER_OF_CHARACTERS_IN_A_ROW
+#undef GET_HASH
+#undef CHECK_CHARACTERS_IN_HASH
+}
