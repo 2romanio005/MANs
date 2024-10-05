@@ -1,0 +1,54 @@
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[user]
+	name = Roman_Proskuryakov
+	email = 2romanio005@gmail.com
+	#email = MyEducation11235@gmail.com
+[core]
+	quotepath = false
+	hooksPath = "C:/MainFolder/Notes/MANs/4 VERSION CONTROL SYSTEMS man/GIT/git settings/hooks/"
+[i18n]
+	commitencoding = utf8
+	logoutputencoding = utf8
+[safe]
+	directory = "*"
+	directory = F:/MainFolder/Projects/Arduino/Brizer
+	directory = F:/MainFolder/Projects/Arduino/FloodEliminator
+	directory = F:/MainFolder/Projects/Flutter/budilnik
+	directory = F:/MainFolder/Projects/Flutter/cramming_poems
+	directory = F:/MainFolder/Projects/C++/Toys/Bombers
+	directory = F:/MainFolder/Projects/C++/Toys/Life_simulation
+	directory = F:/MainFolder/Projects/C++/Useful programs/File_comparison
+	directory = F:/MainFolder/Projects/C++/Useful programs/Cramming
+	directory = F:/MainFolder/Projects/Processing/3D Tic-Tac-Toe
+	directory = F:/MainFolder/Study/University/2 semester/АиСД/speedrun2-MyEducation11235
+	directory = F:/MainFolder/Study/University/1 semester/АиСД/speedrun2023-MyEducation11235
+	directory = F:/MainFolder/Study/University/1 semester/Programming
+	directory = F:/MainFolder/Work/Резюме/Resume-Cpp-1
+[alias]
+	conf = lconf
+	lconf = config --local -e
+	gconf = config --global -e
+	sconf = config --system -e
+	
+	s = status
+	c = commit -m
+	a = add -A
+	p = push origin
+	
+	r = restore
+	d = restore --staged
+	cancel = reset --soft HEAD~
+	ch = checkout
+	
+	test = "!git add -A; git commit -m "test"; git push origin main; git tree"
+	
+	tree = log --graph --oneline --all -12
+	alltree = log --graph --oneline --all
+	filelist = ls-files
+	list = ls-files
+[credential]
+	helper = manager

@@ -1,0 +1,130 @@
+#!/bin/bash
+
+declare against
+if git rev-parse --verify HEAD >/dev/null 2>&1
+then
+	against=HEAD
+else
+	# Initial commit: diff against an empty tree object
+	against=$(git hash-object -t tree /dev/null)
+fi
+
+# $1 - проверяемая строка, $2 - массив в который запишутся индексы ошибочных символов
+function check_line {
+	declare line="  $1 "
+	declare -n result=$2
+	for ((i=2; i < $((${#line} - 1)); i++))
+	do
+#		echo "${1:$(($i-1)):1}${1:i:1}${1:$(($i+1)):1}"
+		if [[ ${line:i:1} =~ [А-Яа-я] && 
+		((${line:$(($i-2)):1} != "\\" && ${line:$(($i-1)):1} =~ [A-Za-z_]) || ${line:$(($i+1)):1} =~ [A-Za-z_])
+		]];
+		then
+			result+=( $(($i-2)) )
+		fi
+	done
+}
+
+# $1 - раскрашиваемая строка, $2 - массив с индексами раскрашеваемых символов.	 возвращает эту же строку, уже раскрашенную
+function print_line_in_color {
+	declare -n arr_with_indexs=$2
+	
+	declare -i old_iter=0
+	for ((i=0; i < ${#arr_with_indexs[@]}; i++))
+	do
+		iter=${arr_with_indexs[i]}
+#		echo "@ $iter"
+#		echo "<${1:iter:1}>"
+		echo -n "${1:old_iter:$((iter - old_iter))}"
+		echo -e -n "\e[0;41m${1:iter:1}\e[m"
+		old_iter=$((iter+1))
+	done
+	echo "${1:old_iter:$((${#1} - old_iter))}"
+}
+
+
+# список всех модифицированных и новых файлов
+declare modified_files=$(git diff --cached --name-only $against);
+
+declare flag_successful_result=true
+
+declare indexes_warning_characters;
+declare old_IFS=$IFS
+IFS=$'\n'
+for file in $modified_files
+do
+#	echo "loking: $file"
+	indexes_warning_characters=();
+	# проверка имени файла
+	check_line "$file" indexes_warning_characters
+
+	if [[ ${#indexes_warning_characters[@]} -ne 0 ]];
+	then
+		flag_successful_result=false
+		echo -e -n "\e[0;93mFormat warning in \e[4;93mfile name\e[m: Русский символ рядом с латинискими символами в названии файла\n\e[0;100mFl \e[m"
+		print_line_in_color "$file" indexes_warning_characters
+	fi
+
+	# проверка что файл текстовый
+	declare file_type=$(file -b "$file");
+	if ! echo $file_type | grep -q text;
+	then
+		continue
+	fi
+	
+	# проверка на кодировку UTF-8
+	if echo $file_type | grep -q ISO-8859;
+	then
+		flag_successful_result=false
+		echo -e "\e[0;93mEncoding warning in \e[4;93mfile name\e[m: Возможно текстовый файла с русским текстом в не UTF-8 кодировке (\e[0;31m$file_type\e[m)\n\e[0;100mFl \e[m$file"
+	fi
+
+	# проверка содержания файла
+	declare -i warning_counter=0;
+	declare -i line_counter=0;
+	while IFS="" read -r line || [ -n "$line" ]
+	do
+		indexes_warning_characters=();	
+		((line_counter++))
+		check_line "$line" indexes_warning_characters
+		if [[ ${#indexes_warning_characters[@]} -ne 0 ]];
+		then
+			if [[ $warning_counter -eq 0 ]];
+			then
+				flag_successful_result=false
+				echo -e "\e[0;93mFormat warning in \e[4;93mcode\e[m: Русский символ рядом с латинискими символами внутри файла \e[4;37m$file\e[m"
+			fi
+			echo -n -e "\e[0;100m$line_counter \e[m"
+			print_line_in_color "$line" indexes_warning_characters
+			if [[ $((++warning_counter)) -ge 5 ]];
+			then 
+				echo "..."
+				break
+			fi
+		fi
+	done <"$file"
+done
+IFS=$old_IFS
+#unset indexes_warning_characters
+
+
+if [[ $flag_successful_result == false ]];
+then 
+	# запрос подтверждения на коммит если есть предупреждения
+	declare response
+	read -e -p "Вы уверенны что хотите продолжить? [y/N] " </dev/tty response;
+	if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]];
+	then
+		flag_successful_result=true
+	fi
+fi
+
+if [[ $flag_successful_result == false ]];
+then 
+	echo -e "\e[0;31mgit commit отменён!\e[m"
+	exit 1	# отмена коммита
+else
+	exit 0	# разрешение коммита
+fi
+
+
