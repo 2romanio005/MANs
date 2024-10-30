@@ -85,7 +85,7 @@ https://learn.microsoft.com/ru-ru/cpp/preprocessor/token-pasting-operator-hash-h
 
 
 std::apply								- применить функцию ко всем элементам turple
-
+https://habr.com/ru/companies/otus/articles/656363/
 
 
 valgrind и Sanitizers программы для отслеживания утечек памяти
