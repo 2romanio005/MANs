@@ -37,18 +37,43 @@
 	s = status
 	c = commit -m
 	a = add -A
-	p = push origin
+	ac = "!git a; git c"
+	asc = "!git a; git s; git c"
 	
-	r = restore
-	d = restore --staged
-	cancel = reset --soft HEAD~
+	b = branch
 	ch = checkout
+	sw = switch
+	
+	delete-all-dev-branches = "!git branch | grep -v \"develop\" | grep -v \"master\" | grep -v \"main\" | grep -v \"$(git branch --show-current)\" | xargs git branch -d"
+	delete-all-dev-branches-force = "!git branch | grep -v \"develop\" | grep -v \"master\" | grep -v \"main\" | grep -v \"$(git branch --show-current)\" | xargs git branch -D"
+	
+	p = push origin
+	ph = "!git push origin \"$(git symbolic-ref --short HEAD)\""
+	hp = ph
+	f = fetch
+	
+	sub = submodule update --init --recursive
+	
+	d = restore --staged
+	cancel-commit = reset --soft HEAD~
+	clear-f = clean -fd
+	clear = clean -nd
+	clear-n = clear
 	
 	test = "!git add -A; git commit -m "test"; git push origin main; git tree"
 	
-	tree = log --graph --oneline --all -12
+	tree = log --graph --oneline --all -15
+	atree = log --graph --oneline --all -28
+	altree = log --graph --oneline --all
 	alltree = log --graph --oneline --all
+	t = alltree
+	
+	df = diff
+	dfh = df HEAD
+	dft = difftool
+	
 	filelist = ls-files
+	files = ls-files
 	list = ls-files
 [credential]
 	helper = manager
