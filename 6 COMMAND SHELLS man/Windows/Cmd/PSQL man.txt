@@ -1,0 +1,50 @@
+;												- в конц всех команд
+
+\! command										- выполнить command в cmd
+
+\c db_name;										- подключиться к бд
+
+\d												- список всех таблиц
+	table_name												- данные о структуре таблицы table_name + список всех тригеров привязанных к таблице + индексы + ограничения внешнего клча
+
+===================================================================== ТРИГЕРЫ ================================================================
+
+\df												- список всех созданных функций, тригеров, процедур
+
+TG_OP											- переменная типа строки, содержит источник тригера. см. возмодные типы ниже
+	'INSERT'
+	'UPDATE'
+	'DELETE'
+
+Переменные NEW и OLD: Это строки, которые обрабатывает триггер.
+	В случае INSERT переменная NEW будет содержать новую строку, а OLD будет пустая
+	В случае UPDATE обе переменные будут определены (соответствующими данными),
+	В случае DELETE переменная NEW будет пустая, OLD содержать удаляемую строку.
+
+CREATE OR REPLACE FUNCTION add_to_log() RETURNS TRIGGER AS $$
+DECLARE
+    mstr varchar(30);
+    astr varchar(100);
+    retstr varchar(254);
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        astr = NEW.id;
+        mstr := 'Add new user ';
+        retstr := mstr||astr;
+        INSERT INTO logs(text, added) values (retstr,NOW());
+        RETURN NEW;
+    ELSIF TG_OP = 'UPDATE' THEN
+        astr = NEW.id;
+        mstr := 'Update user ';
+        retstr := mstr||astr;
+        INSERT INTO logs(text,added) values (retstr,NOW());
+        RETURN NEW;
+    ELSIF TG_OP = 'DELETE' THEN
+        astr = OLD.id;
+        mstr := 'Remove user ';
+        retstr := mstr || astr;
+        INSERT INTO logs(text,added) values (retstr,NOW());
+        RETURN OLD;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
